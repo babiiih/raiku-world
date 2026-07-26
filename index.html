@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>RAIKU WORLD — Open World Komunitas</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= AUTH ================= -->
+<div id="authScreen" class="screen active">
+  <div class="center-col">
+    <div class="logo-row">
+      <svg width="46" height="34" viewBox="0 0 100 74" fill="#C0FF38" xmlns="http://www.w3.org/2000/svg">
+        <path d="M30 0 h52 l14 12 -12 14 h-52 l-12 -12 z" transform="skewX(-8)"/>
+        <path d="M22 24 h60 l12 12 -30 34 h-16 l24 -28 h-48 l-10 -9 z" transform="skewX(-8)"/>
+        <path d="M10 48 h30 l-8 12 h-30 z" transform="skewX(-8)"/>
+      </svg>
+      <div><div class="lt">RAIKU <span style="color:var(--neon)">WORLD</span></div>
+      <div class="ls">OPEN WORLD KOMUNITAS · ONLINE</div></div>
+    </div>
+    <canvas id="authPrev" width="120" height="60" style="image-rendering:pixelated;width:240px;height:120px;"></canvas>
+
+    <div class="card">
+      <div class="tabs">
+        <button class="tab on" id="tabLogin">MASUK</button>
+        <button class="tab" id="tabReg">DAFTAR</button>
+      </div>
+      <div class="field"><label>Email (Gmail)</label><input id="email" type="email" placeholder="kamu@gmail.com" autocomplete="email"></div>
+      <div class="field"><label>Password</label><input id="pass" type="password" placeholder="min. 6 karakter" autocomplete="current-password"></div>
+      <div class="field" id="pass2Row" style="display:none;"><label>Ulangi Password</label><input id="pass2" type="password" placeholder="ulangi password"></div>
+      <div class="authmsg" id="authMsg"></div>
+      <button class="btn" id="authBtn">MASUK DUNIA ▶</button>
+      <div style="height:8px"></div>
+      <button class="btn ghostb" id="demoBtn">🎮 COBA MODE DEMO (TANPA AKUN)</button>
+      <div class="demo-note" id="cfgNote"></div>
+    </div>
+
+    <div class="flinks">
+      <a href="https://raiku.com/" target="_blank" rel="noopener">Website</a>
+      <a href="https://stake.raiku.com/?ref=links" target="_blank" rel="noopener">Stake rkuSOL</a>
+      <a href="https://docs.raiku.com/" target="_blank" rel="noopener">Docs</a>
+      <a href="https://x.com/raikucom" target="_blank" rel="noopener">Twitter / X</a>
+      <a href="https://raiku.com/brand-assets" target="_blank" rel="noopener">Brand Assets</a>
+      <a href="https://www.linkedin.com/company/raikucom/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://jobs.ashbyhq.com/raiku" target="_blank" rel="noopener">Careers</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CHARACTER CREATOR ================= -->
+<div id="charScreen" class="screen">
+  <div class="center-col">
+    <h1 class="gt">BUAT <span>NAGA-MU</span></h1>
+    <div class="card" id="charCard">
+      <div id="charPrevBox">
+        <canvas id="charPrev" width="76" height="76"></canvas>
+        <div class="field" style="width:100%;">
+          <label>Nickname</label>
+          <input id="nick" maxlength="14" placeholder="cth: RaikuFan01">
+        </div>
+      </div>
+      <div>
+        <div class="optrow"><div class="lbl">Warna Badan</div><div class="swatches" id="optBody"></div></div>
+        <div class="optrow"><div class="lbl">Warna Crest / Duri</div><div class="swatches" id="optCrest"></div></div>
+        <div class="optrow"><div class="lbl">Warna Perut</div><div class="swatches" id="optBelly"></div></div>
+        <div class="optrow"><div class="lbl">Warna Mata</div><div class="swatches" id="optEye"></div></div>
+        <div class="optrow"><div class="lbl">Sayap</div><div class="swatches" id="optWing"></div></div>
+        <div class="optrow"><div class="lbl">Aksesoris</div><div class="swatches" id="optAcc"></div></div>
+        <div class="authmsg" id="charMsg"></div>
+        <button class="btn" id="charGo">⚡ MASUK DUNIA</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= GAME ================= -->
+<div id="gameScreen" class="screen">
+  <canvas id="world"></canvas>
+
+  <div class="hud" id="hudTop">
+    <div id="hudNick">RAIKU<small id="hudLv">Lv.1</small></div>
+    <div class="hbar" id="hbHp"><div style="width:100%"></div></div>
+    <div class="hbar" id="hbMp"><div style="width:100%"></div></div>
+    <div class="hbar" id="hbXp"><div style="width:0%"></div></div>
+  </div>
+
+  <div class="hud" id="hudTopRight">
+    <div id="onlineCount">● <b id="onlineNum">1</b> online</div>
+    <button class="hudbtn" id="mapBtn">🗺 PETA</button>
+    <button class="hudbtn" id="muteBtn2">SFX</button>
+    <button class="hudbtn" id="editChar">EDIT</button>
+    <button class="hudbtn" id="logoutBtn">KELUAR</button>
+  </div>
+
+  <div class="hud" id="miniWrap"><canvas id="minimap" width="120" height="80"></canvas></div>
+
+  <div class="hud" id="zoneBanner"></div>
+  <div class="hud" id="toasts"></div>
+  <div class="hud" id="hintBar">WASD/←→↑↓ jalan · 1-7 skill · E lambai · Q duduk · M peta · ENTER chat</div>
+
+  <div class="hud" id="hotbar"></div>
+
+  <div class="hud" id="chatBox">
+    <div id="chatMsgs"></div>
+    <div id="chatRow">
+      <input id="chatInput" maxlength="140" placeholder="ketik pesan... (Enter)">
+      <button id="chatSend">➤</button>
+    </div>
+  </div>
+
+  <div id="joy"><div id="joyKnob"></div></div>
+  <div id="joyHint">SENTUH &<br>GESER<br>DI SINI</div>
+  <button id="chatToggle">💬<span class="badge" id="chatBadge">0</span></button>
+</div>
+
+<!-- ================= PETA DUNIA ================= -->
+<div id="mapOverlay">
+  <div id="mapCard">
+    <div id="mapTitle">🗺 Peta Dunia Raiku</div>
+    <canvas id="bigmap" width="480" height="320"></canvas>
+    <div id="mapLegend">● hijau = waypoint ditemukan (tap untuk teleport) · ? = belum ditemukan<br>
+      titik putih = posisimu · dekati gerbang di dunia untuk membukanya</div>
+    <button id="mapClose">TUTUP ✕</button>
+  </div>
+</div>
+
+<!-- Firebase compat SDK (auto-skip kalau offline / belum dikonfigurasi) -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
+
+<script>
+/* ============================================================
+   >>> AKTIVASI ONLINE — lihat README.md <<<
+   Ganti dengan config dari Firebase Console:
+   Project Settings → General → Your apps → Web app            */
+const FIREBASE_CONFIG = {
+  apiKey: "GANTI_DENGAN_PUNYAMU",
+  authDomain: "GANTI.firebaseapp.com",
+  databaseURL: "https://GANTI-default-rtdb.firebaseio.com",
+  projectId: "GANTI",
+  appId: "GANTI",
+};
+</script>
+
+<!-- engine game (urutan penting) -->
+<script src="js/util.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/sprites.js"></script>
+<script src="js/world.js"></script>
+<script src="js/entities.js"></script>
+<script src="js/render.js"></script>
+<script src="js/game.js"></script>
+<script src="js/net.js"></script>
+</body>
+</html>
