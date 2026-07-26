@@ -189,7 +189,7 @@ function damageMob(m,dmg,col='#FDFDFF'){
     addParts(m.x,m.y-10,'#C0FF38',18,90);
     gainExp(m.exp);
     addFloat(m.x,m.y-34,'+'+m.exp+' EXP','#C0FF38');
-    if (m.boss){ toast('★ KRAKEN DIKALAHKAN! NETWORK AMAN! ★'); flashCol='#C0FF38'; flashA=0.5; }
+    if (m.boss){ toast(t('krakenDefeated')); flashCol='#C0FF38'; flashA=0.5; }
   }
 }
 function hurtMe(dmg,src){

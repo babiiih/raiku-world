@@ -208,3 +208,10 @@ body.touch #chatMsgs{height:110px;font-size:10px;touch-action:pan-y;}
   body.touch #hudTop{min-width:146px;padding:6px 9px;}
   body.touch .hbar{height:7px;margin-top:4px;}
 }
+
+/* Language switcher */
+.lang-switch{display:flex;gap:6px;justify-content:center;margin:10px 0}
+.lang-btn{background:transparent;border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 14px;
+  color:rgba(255,255,255,.5);font-size:12px;cursor:pointer;transition:.15s;font-family:var(--sans)}
+.lang-btn:hover{border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.8)}
+.lang-btn.active{border-color:#C0FF38;color:#C0FF38;background:rgba(192,255,56,.08)}

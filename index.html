@@ -37,6 +37,7 @@
       <div class="demo-note" id="cfgNote"></div>
     </div>
 
+    <div class="lang-switch"><button class="lang-btn active" data-lang="id" onclick="setLang('id')">🇮🇩 ID</button><button class="lang-btn" data-lang="en" onclick="setLang('en')">🇬🇧 EN</button></div>
     <div class="flinks">
       <a href="https://raiku.com/" target="_blank" rel="noopener">Website</a>
       <a href="https://stake.raiku.com/?ref=links" target="_blank" rel="noopener">Stake rkuSOL</a>
@@ -90,6 +91,7 @@
     <div id="onlineCount">● <b id="onlineNum">1</b> online</div>
     <button class="hudbtn" id="mapBtn">🗺 PETA</button>
     <button class="hudbtn" id="muteBtn2">SFX</button>
+    <button class="hudbtn" id="langToggle" onclick="setLang(curLang==='id'?'en':'id')">🌐</button>
     <button class="hudbtn" id="editChar">EDIT</button>
     <button class="hudbtn" id="logoutBtn">KELUAR</button>
   </div>
@@ -153,6 +155,7 @@ const FIREBASE_CONFIG = {
 <script src="js/entities.js"></script>
 <script src="js/render.js"></script>
 <script src="js/game.js"></script>
+<script src="js/lang.js"></script>
 <script src="js/net.js"></script>
 </body>
 </html>

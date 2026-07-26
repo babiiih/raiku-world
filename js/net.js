@@ -9,7 +9,7 @@ let saveDirty=false, fxCounter=0, pendingFx=null, lastSent='', sendAcc=0, hbAcc=
 if (fbOK){
   firebase.initializeApp(FIREBASE_CONFIG);
   auth=firebase.auth(); db=firebase.database();
-  $('cfgNote').textContent='server online siap ⚡';
+  $('cfgNote').textContent=t('serverOnline');
 } else {
   $('cfgNote').innerHTML = typeof firebase==='undefined'
     ? 'CDN Firebase tidak termuat — hanya mode demo yang tersedia.'
@@ -24,14 +24,14 @@ $('tabReg').onclick=()=>{ regMode=true; $('tabReg').classList.add('on'); $('tabL
   $('pass2Row').style.display='block'; $('authBtn').textContent='DAFTAR & MASUK ▶'; };
 
 const ERRMAP = {
-  'auth/invalid-email':'Format email tidak valid.',
-  'auth/user-not-found':'Akun tidak ditemukan. Coba DAFTAR dulu.',
-  'auth/wrong-password':'Password salah.',
-  'auth/invalid-credential':'Email atau password salah.',
-  'auth/email-already-in-use':'Email sudah terdaftar. Coba MASUK.',
-  'auth/weak-password':'Password minimal 6 karakter.',
-  'auth/too-many-requests':'Terlalu banyak percobaan. Tunggu sebentar.',
-  'auth/network-request-failed':'Gagal terhubung. Cek koneksi internet.',
+  'auth/invalid-email':t('errInvalidEmail'),
+  'auth/user-not-found':t('errUserNotFound'),
+  'auth/wrong-password':t('errWrongPassword'),
+  'auth/invalid-credential':t('errInvalidCred'),
+  'auth/email-already-in-use':t('errEmailInUse'),
+  'auth/weak-password':t('errWeakPass'),
+  'auth/too-many-requests':t('errTooMany'),
+  'auth/network-request-failed':t('errNetwork'),
 };
 function authMsg(t,ok=false){ const m=$('authMsg'); m.textContent=t; m.className='authmsg'+(ok?' ok':''); }
 
@@ -39,13 +39,13 @@ $('authBtn').onclick = async ()=>{
   if (!fbOK) return;
   const em=$('email').value.trim(), pw=$('pass').value;
   if (!em||!pw) return authMsg('Isi email & password dulu.');
-  if (regMode && pw!==$('pass2').value) return authMsg('Password tidak sama.');
-  $('authBtn').disabled=true; authMsg(regMode?'Mendaftarkan akun...':'Masuk...', true);
+  if (regMode && pw!==$('pass2').value) return authMsg(t('errPassMismatch'));
+  $('authBtn').disabled=true; authMsg(regMode?t('registering'):t('loggingIn'), true);
   try{
     if (regMode) await auth.createUserWithEmailAndPassword(em,pw);
     else await auth.signInWithEmailAndPassword(em,pw);
   }catch(e){
-    authMsg(ERRMAP[e.code]||('Gagal: '+(e.message||e.code)));
+    authMsg(ERRMAP[e.code]||(t('errGeneric')+': '+(e.message||e.code)));
     $('authBtn').disabled=false;
   }
 };
@@ -62,7 +62,7 @@ $('demoBtn').onclick=()=>{
 if (fbOK) auth.onAuthStateChanged(async user=>{
   if (!user || demo) return;
   me.uid=user.uid;
-  authMsg('Memuat profil...', true);
+  authMsg(t('loadingProfile'), true);
   try{
     const snap = await db.ref('users/'+user.uid).get();
     const prof = snap.val();
@@ -77,7 +77,7 @@ if (fbOK) auth.onAuthStateChanged(async user=>{
       gotoCreator();
     }
   }catch(e){
-    authMsg('Gagal memuat profil: '+(e.code||e.message));
+    authMsg(t('errLoadProfile')+': '+(e.code||e.message));
     $('authBtn').disabled=false;
   }
 });
@@ -89,31 +89,32 @@ function gotoCreator(){
 }
 $('charGo').onclick=async ()=>{
   const n=$('nick').value.trim();
-  if (n.length<3) { $('charMsg').textContent='Nickname minimal 3 karakter.'; return; }
-  if (!/^[a-zA-Z0-9_\-]+$/.test(n)) { $('charMsg').textContent='Hanya huruf, angka, _ dan -'; return; }
+  if (n.length<3) { $('charMsg').textContent=t('errNickShort'); return; }
+  if (!/^[a-zA-Z0-9_\-]+$/.test(n)) { $('charMsg').textContent=t('errNickFormat'); return; }
   me.nick=n; me.skin={...curSkin}; me._cv=me._cvB=me._cvR=null;
   store('rw_nick',n); store('rw_skin',JSON.stringify(curSkin));
   if (!demo && db && me.uid){
     $('charGo').disabled=true; $('charMsg').textContent='';
     try{
       await db.ref('users/'+me.uid).update({nick:me.nick, skin:me.skin, lv:me.lv, exp:me.exp, wps:me.wps});
-    }catch(e){ $('charMsg').textContent='Gagal simpan: '+(e.code||e.message); $('charGo').disabled=false; return; }
+    }catch(e){ $('charMsg').textContent=t('errSaveFail')+': '+(e.code||e.message); $('charGo').disabled=false; return; }
     $('charGo').disabled=false;
   }
   enterWorld();
 };
 
 function enterWorld(){
+  applyLang();
   show('gameScreen');
   resize();
   me.x=SPAWN.x; me.y=SPAWN.y; me.hp=maxHp(); me.mp=maxMp(); me.dead=false;
   camX=clamp(me.x-VW2/2,0,MW*TILE-VW2); camY=clamp(me.y-VH2/2,0,MH*TILE-VH2);
   buildHotbar(); updateHud();
   $('chatMsgs').innerHTML='';
-  addChatMsg('','— Selamat datang di RAIKU WORLD, '+me.nick+'! —','sys');
-  addChatMsg('','Dunia luas menantimu: 6 biome, 7 waypoint, dan boss Kraken di timur laut. Buka PETA (M / 🗺) untuk fast-travel.','sys');
-  addChatMsg('','Zona aman: Plaza & Chill Lounge 🔥 (HP regen cepat). Zona bahaya ditandai level di banner.','sys');
-  if (demo) addChatMsg('','MODE DEMO — pemain online tidak terlihat. Setup Firebase untuk fitur online penuh (README.md).','sys');
+  addChatMsg('','— '+t('welcome')+', '+me.nick+'! —','sys');
+  addChatMsg('',t('welcomeMsg'),'sys');
+  addChatMsg('',t('safeZone'),'sys');
+  if (demo) addChatMsg('',t('demoMsg'),'sys');
   if (!demo && db) startNet();
   try{ ac().resume(); }catch(e){}
 }
@@ -214,7 +215,7 @@ $('chatInput').addEventListener('keydown',e=>{
   e.stopPropagation();
 });
 
-$('muteBtn2').onclick=function(){ muted=!muted; this.textContent=muted?'SFX ✕':'SFX'; };
+$('muteBtn2').onclick=function(){ muted=!muted; this.textContent=muted?t('sfxOff'):t('sfxOn'); };
 $('editChar').onclick=()=>{ curSkin={...me.skin}; gotoCreator(); };
 $('logoutBtn').onclick=async ()=>{
   try{ if(online&&db) await db.ref('world/'+me.uid).remove(); }catch(e){}
@@ -225,3 +226,4 @@ window.addEventListener('beforeunload',()=>{
   try{ if(online&&db){ db.ref('world/'+me.uid).remove(); if(saveDirty) db.ref('users/'+me.uid).update({lv:me.lv,exp:me.exp,wps:me.wps}); } }catch(e){}
 });
 resize();
+applyLang();
