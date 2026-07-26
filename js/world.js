@@ -14,16 +14,16 @@ function hash(x,y){ let h=(x*374761393+y*668265263)^(x*y*97); h=(h^(h>>13))*1274
 
 /* urutan penting: zona spesifik dulu */
 const ZONES = [
-  {name:'SARANG KRAKEN ★BOSS',          x1:198,y1:16, x2:224,y2:40},
-  {name:'PLAZA GENESIS',                 x1:108,y1:68, x2:132,y2:92},
-  {name:'CHILL LOUNGE 🔥',               x1:148,y1:98, x2:178,y2:116},
-  {name:'TRAINING FIELD ⚔ Lv.1-5',      x1:74, y1:98, x2:106,y2:126},
-  {name:'FROZEN CACHE ❄ Lv.10-15',      x1:4,  y1:4,  x2:68, y2:46},
-  {name:'VOLCANIC RIDGE 🌋 Lv.15-20',   x1:170,y1:4,  x2:236,y2:54},
-  {name:'NEON FOREST ✦',                 x1:70, y1:4,  x2:168,y2:40},
-  {name:'GURUN VOLATILITAS ☀ Lv.6-10',  x1:4,  y1:50, x2:64, y2:120},
-  {name:'RAWA MEMPOOL ☠ Lv.8-12',       x1:148,y1:118,x2:236,y2:154},
-  {name:'DANAU DATA',                    x1:164,y1:60, x2:216,y2:94},
+  {name:t('biomeKraken')+' '+t('bossLabel'),          x1:198,y1:16, x2:224,y2:40},
+  {name:t('biomePlaza'),                 x1:108,y1:68, x2:132,y2:92},
+  {name:t('biomeChill'),               x1:148,y1:98, x2:178,y2:116},
+  {name:t('biomeTraining')+' '+t('lvLabel')+'.1-5',      x1:74, y1:98, x2:106,y2:126},
+  {name:t('biomeFrozen')+' '+t('lvLabel')+'.10-15',      x1:4,  y1:4,  x2:68, y2:46},
+  {name:t('biomeVolcanic')+' '+t('lvLabel')+'.15-20',   x1:170,y1:4,  x2:236,y2:54},
+  {name:t('zoneNeon'),                 x1:70, y1:4,  x2:168,y2:40},
+  {name:t('biomeDesert')+' '+t('lvLabel')+'.6-10',  x1:4,  y1:50, x2:64, y2:120},
+  {name:t('biomeSwamp')+' '+t('lvLabel')+'.8-12',       x1:148,y1:118,x2:236,y2:154},
+  {name:t('zoneData'),                    x1:164,y1:60, x2:216,y2:94},
 ];
 
 /* gerbang waypoint — ditemukan dengan mendekat, teleport via peta dunia */

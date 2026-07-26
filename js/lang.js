@@ -82,6 +82,38 @@ const LANGS = {
     sfxOff: 'SFX ✕',
     edit: 'EDIT',
     logout: 'KELUAR',
+    // Skills
+    skillChain: 'CHAIN STRIKE',
+    skillBurst: 'DATA BURST',
+    skillDash: 'SPARK DASH',
+    skillShield: 'NODE SHIELD',
+    skillHeal: 'HEAL PULSE',
+    skillNova: 'VOLT NOVA',
+    skillRoar: 'GENESIS ROAR',
+
+    // Game messages
+    waypointFound: '⚡ WAYPOINT DITEMUKAN',
+    defeated: 'KAMU TUMBANG! respawn di Plaza...',
+    levelUp: '★ LEVEL UP!',
+    newSkill: 'SKILL BARU',
+    lockedSkill: 'terkunci — butuh Lv.',
+    mpLow: 'MP kurang!',
+    teleport: '⚡ Teleport ke',
+
+    // Signs
+    signTraining: 'TRAINING',
+    signChill: 'CHILL ZONE',
+
+    // Kraken
+    krakenLabel: '★ CONGESTION KRAKEN Lv.',
+
+    // Zones
+    zoneNeon: 'NEON FOREST ✦',
+    zoneData: 'DANAU DATA',
+
+    // Misc
+    bossLabel: '★BOSS',
+    lvLabel: 'Lv.',
   },
   en: {
     // Auth screen
@@ -163,7 +195,39 @@ const LANGS = {
     sfxOff: 'SFX ✕',
     edit: 'EDIT',
     logout: 'LOGOUT',
-  }
+    // Skills
+    skillChain: 'CHAIN STRIKE',
+    skillBurst: 'DATA BURST',
+    skillDash: 'SPARK DASH',
+    skillShield: 'NODE SHIELD',
+    skillHeal: 'HEAL PULSE',
+    skillNova: 'VOLT NOVA',
+    skillRoar: 'GENESIS ROAR',
+
+    // Game messages
+    waypointFound: '⚡ WAYPOINT FOUND',
+    defeated: 'YOU FALLEN! Respawning at Plaza...',
+    levelUp: '★ LEVEL UP!',
+    newSkill: 'NEW SKILL',
+    lockedSkill: 'locked — requires Lv.',
+    mpLow: 'Not enough MP!',
+    teleport: '⚡ Teleporting to',
+
+    // Signs
+    signTraining: 'TRAINING',
+    signChill: 'CHILL ZONE',
+
+    // Kraken
+    krakenLabel: '★ CONGESTION KRAKEN Lv.',
+
+    // Zones
+    zoneNeon: 'NEON FOREST ✦',
+    zoneData: 'DATA LAKE',
+
+    // Misc
+    bossLabel: '★BOSS',
+    lvLabel: 'Lv.',
+  },
 };
 
 let curLang = localStorage.getItem('rw_lang') || 'id';

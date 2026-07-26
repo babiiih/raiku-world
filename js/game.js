@@ -65,7 +65,7 @@ function update(dt,tm){
     for(const g of GATES){
       if (!me.wps[g.id] && dist2(me.x,me.y,(g.x+0.5)*TILE,(g.y+0.5)*TILE)<48*48){
         me.wps[g.id]=true; SFX.gate();
-        toast('⚡ WAYPOINT DITEMUKAN: '+g.nm);
+        toast(t('waypointFound')+': '+g.nm);
         addParts((g.x+0.5)*TILE,(g.y)*TILE,'#C0FF38',22,80);
         saveDirty=true;
       }
@@ -132,7 +132,7 @@ function update(dt,tm){
         else n.wait=1;
       }
       if (Math.random()<0.0012 && dist2(n.x,n.y,me.x,me.y)<200*200){
-        const line=NPC_LINES[Math.floor(Math.random()*NPC_LINES.length)];
+        const line=NPC_LINES()[Math.floor(Math.random()*NPC_LINES.length)];
         n.bubble={txt:line, until:now()+4500};
         addChatMsg(n.nick, line, 'npc');
       }
@@ -207,7 +207,7 @@ function hurtMe(dmg,src){
   SFX.hurt();
   if (me.hp<=0 && !me.dead){
     me.dead=true; SFX.die();
-    toast('KAMU TUMBANG! respawn di Plaza...', true);
+    toast(t('defeated'), true);
     addParts(me.x,me.y-12,'#ff5470',22,90);
     setTimeout(()=>{ me.x=SPAWN.x; me.y=SPAWN.y; me.hp=maxHp(); me.mp=maxMp(); me.dead=false; me.vx=me.vy=0;
       if(me.anim){me.anim.px=me.x;me.anim.py=me.y;me.anim.vx=me.anim.vy=0;} }, 1800);
@@ -219,8 +219,8 @@ function gainExp(n){
   while (me.exp>=expNext() && me.lv<50){ me.exp-=expNext(); me.lv++; up=true; }
   if (up){
     SFX.lvup(); flashCol='#FDFDFF'; flashA=0.3;
-    toast('★ LEVEL UP! Lv.'+me.lv);
-    SKILLS.filter(s=>s.unlock===me.lv).forEach(s=>toast('SKILL BARU: '+s.ic+' '+s.nm));
+    toast(t('levelUp')+' '+t('lvLabel')+'.'+me.lv);
+    SKILLS.filter(s=>s.unlock===me.lv).forEach(s=>toast(t('newSkill')+': '+s.ic+' '+s.nm));
     me.hp=maxHp(); me.mp=maxMp();
     buildHotbar();
   }
@@ -229,9 +229,9 @@ function gainExp(n){
 function useSkill(i){
   const s=SKILLS[i];
   if (!s || me.dead) return;
-  if (me.lv<s.unlock){ toast('terkunci — butuh Lv.'+s.unlock, true); return; }
+  if (me.lv<s.unlock){ toast(t('lockedSkill')+' '+s.unlock, true); return; }
   if (cds[i]>0) return;
-  if (me.mp<s.mp){ toast('MP kurang!', true); return; }
+  if (me.mp<s.mp){ toast(t('mpLow'), true); return; }
   me.mp-=s.mp; cds[i]=s.cd; me.sit=false;
   const fx=me.dir, cxp=me.x+fx*20, cyp=me.y-8;
   switch(i){
@@ -303,7 +303,7 @@ function emote(kind){
    ============================================================ */
 function updateHud(){
   $('hudNick').childNodes[0].nodeValue = me.nick||'RAIKU';
-  $('hudLv').textContent = ' Lv.'+me.lv;
+  $('hudLv').textContent = ' '+t('lvLabel')+'.'+me.lv;
   $('hbHp').firstElementChild.style.width = clamp(me.hp/maxHp()*100,0,100)+'%';
   $('hbMp').firstElementChild.style.width = clamp(me.mp/maxMp()*100,0,100)+'%';
   $('hbXp').firstElementChild.style.width = clamp(me.exp/expNext()*100,0,100)+'%';
@@ -477,7 +477,7 @@ $('bigmap').addEventListener('click',e=>{
     if (me.anim){ me.anim.px=me.x; me.anim.py=me.y; me.anim.vx=me.anim.vy=0; }
     camX=clamp(me.x-VW2/2,0,MW*TILE-VW2); camY=clamp(me.y-VH2/2,0,MH*TILE-VH2);
     addParts(me.x,me.y-10,'#C0FF38',16,80);
-    toast('⚡ Teleport ke '+best.nm);
+    toast(t('teleport')+' '+best.nm);
     toggleMap(false);
   }
 });

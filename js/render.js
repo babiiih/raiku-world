@@ -300,7 +300,7 @@ function drawMob(m,tm){
   }
   if (m.boss){
     ctx.font=`bold ${Math.round(3*SCALE)}px monospace`; ctx.textAlign='center';
-    ctx.fillStyle='#ffd166'; ctx.fillText('★ CONGESTION KRAKEN Lv.'+m.lv, w2sx(m.x), sy-10);
+    ctx.fillStyle='#ffd166'; ctx.fillText(t('krakenLabel')+m.lv, w2sx(m.x), sy-10);
   }
 }
 
@@ -332,7 +332,7 @@ function render(tm){
     else if(t===T.CACTUS) draws.push({y:wy,f:()=>drawCactus(wx,wy)});
     else if(t===T.LANTERN) draws.push({y:wy,f:()=>drawLantern(wx,wy,tm)});
     else if(t===T.FIRE&&mget(x-1,y)!==T.FIRE) draws.push({y:wy,f:()=>drawFire(wx+8,wy,tm)});
-    else if(t===T.SIGN) draws.push({y:wy,f:()=>drawSign(wx,wy, x<120?'TRAINING':'CHILL ZONE')});
+    else if(t===T.SIGN) draws.push({y:wy,f:()=>drawSign(wx,wy, x<120?t('signTraining'):t('signChill'))});
     else if(t===T.STATUE&&mget(x-1,y)!==T.STATUE&&mget(x,y-1)!==T.STATUE) draws.push({y:wy+16,f:()=>drawStatue(wx+8,wy+16,tm)});
     else if(t===T.BENCH) draws.push({y:wy,f:()=>drawBench(wx,wy)});
     else if(t===T.CRYSTAL) draws.push({y:wy,f:()=>drawCrystal(wx,wy,tm)});

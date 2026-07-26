@@ -15,13 +15,13 @@ const maxMp = ()=>50+me.lv*6;
 const expNext = ()=>me.lv*80;
 
 const SKILLS = [
-  {nm:'CHAIN STRIKE', ic:'⚔', unlock:1, mp:0,  cd:.45, key:'1'},
-  {nm:'DATA BURST',   ic:'◆', unlock:2, mp:8,  cd:.8,  key:'2'},
-  {nm:'SPARK DASH',   ic:'⚡', unlock:3, mp:10, cd:2.5, key:'3'},
-  {nm:'NODE SHIELD',  ic:'🛡', unlock:4, mp:15, cd:9,  key:'4'},
-  {nm:'HEAL PULSE',   ic:'✚', unlock:5, mp:20, cd:7,  key:'5'},
-  {nm:'VOLT NOVA',    ic:'✦', unlock:6, mp:25, cd:6,  key:'6'},
-  {nm:'GENESIS ROAR', ic:'🔥', unlock:8, mp:40, cd:14, key:'7'},
+  {nm:t('skillChain'), ic:'⚔', unlock:1, mp:0,  cd:.45, key:'1'},
+  {nm:t('skillBurst'),   ic:'◆', unlock:2, mp:8,  cd:.8,  key:'2'},
+  {nm:t('skillDash'),   ic:'⚡', unlock:3, mp:10, cd:2.5, key:'3'},
+  {nm:t('skillShield'),  ic:'🛡', unlock:4, mp:15, cd:9,  key:'4'},
+  {nm:t('skillHeal'),   ic:'✚', unlock:5, mp:20, cd:7,  key:'5'},
+  {nm:t('skillNova'),    ic:'✦', unlock:6, mp:25, cd:6,  key:'6'},
+  {nm:t('skillRoar'), ic:'🔥', unlock:8, mp:40, cd:14, key:'7'},
 ];
 const cds = new Array(SKILLS.length).fill(0);
 
@@ -103,12 +103,19 @@ function playerInRect(r,pad=3){
 }
 
 /* ---------- NPC penghuni chill lounge ---------- */
-const NPC_LINES = [
+const NPC_LINES_ID = [
   'GM explorer! ⚡','udah stake rkuSOL belum? 😎','chill dulu di api unggun 🔥',
   'network aman berkat Raiku 🐉','WAGMI!','block baru dikonfirmasi... nice',
   'hati-hati ke Volcanic Ridge, Lv.15+ baru aman!','kraken di utara timur itu... seram 😨',
   'gurun di barat banyak scorpion, EXP-nya lumayan','aku suka duduk di sini liat danau',
 ];
+const NPC_LINES_EN = [
+  'GM explorer! ⚡','staked rkuSOL yet? 😎','chilling by the campfire 🔥',
+  'network safe thanks to Raiku 🐉','WAGMI!','new block confirmed... nice',
+  'careful at Volcanic Ridge, Lv.15+ only!','that kraken in the northeast... scary 😨',
+  'desert in the west has scorpions, decent EXP','I love sitting here watching the lake',
+];
+function NPC_LINES(){ return curLang==='en' ? NPC_LINES_EN : NPC_LINES_ID; };
 const npcs = [
   {nick:'NodeRunner', skin:{body:1,crest:1,belly:2,eye:1,wing:0,acc:0}, x:160*TILE,y:105*TILE, hx:159,hy:107},
   {nick:'BlockSmith', skin:{body:5,crest:3,belly:1,eye:2,wing:0,acc:1}, x:167*TILE,y:108*TILE, hx:166,hy:110},
